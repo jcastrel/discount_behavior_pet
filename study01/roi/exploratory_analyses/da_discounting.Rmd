@@ -1,0 +1,337 @@
+---
+title: "DA & Discounting - Exploratory Analyses"
+author: "Jaime J. Castrellon, Kendra L. Seaman, Jennifer L. Crawford, Jacob S. Young, Christopher T. Smith, Linh C. Dang, Ming Hsu, Ronald L. Cowan, David H. Zald, Gregory R. Samanez-Larkin"
+date: "September 17, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Individual differences in dopamine are associated with reward discounting in clinical groups but not in healthy adults - Exploratory analyses {.tabset}
+
+
+###Build, packages, & data
+Session info
+```{r}
+devtools::session_info()
+```
+Packages
+```{r results='hide', message=FALSE, warning=FALSE}
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+library(sjPlot)
+library(sjlabelled)
+library(sjmisc)
+library(sjstats)
+```
+Load data
+```{r}
+data = read.csv(file="./study01_data_exploratory_analyses.csv",header=TRUE, sep=",")
+```
+Set seed (for reproducible results) 
+```{r}
+set.seed(1000)
+```
+Get discounting measures (time, probability, effort)
+```{r}
+varlist <- names(data)[c(63,65,66,68,69,71)]
+print(varlist)
+```
+
+
+###Main effects of age, sex, study, and interactions of age and study
+Examine main effects of age, sex, study, and dopamine on discounting and interactions of age and dopamine & study and dopamine where possible
+
+####Midbrain
+```{r}
+midbrain <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + study3 + midbrain + agexmidbrain + s2xmidbrain + s3xmidbrain, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(midbrain,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+####Ventral Striatum
+```{r}
+accumbens_pvc <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + accumbens_pvc + agexnacc + s2xnacc, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(accumbens_pvc,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+####Caudate
+
+```{r}
+caudate_pvc <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + caudate_pvc + agexcaud + s2xcaud, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(caudate_pvc,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+####Putamen
+```{r}
+putamen_pvc <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + putamen_pvc + agexput + s2xput, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(putamen_pvc,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+####Amygdala
+
+```{r}
+amygdala_pvc <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + study3 + amygdala_pvc + agexamyg + s2xamyg + s3xamyg, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(amygdala_pvc,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+####Hippocampus
+
+```{r}
+hippocampus_pvc <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + study3 + hippocampus_pvc + agexhipp + s2xhipp + s3xhipp, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(hippocampus_pvc,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+####Thalamus
+
+```{r}
+thalamus_pvc <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + study3 + thalamus_pvc + agexthal + s2xthal + s3xthal, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(thalamus_pvc,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+####ACC
+
+```{r}
+acc_pvc <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + study3 + acc_pvc + agexacc + s2xacc + s3xacc, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(acc_pvc,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+####Insula
+
+```{r}
+insula_pvc <- lapply(varlist, function(x) {
+    lm(substitute(i ~ age + male + study2 + study3 + insula_pvc + agexins + s2xins + s3xins, list(i = as.name(x))), data = data)
+})
+
+sjt.glm(insula_pvc,digits.est = 5, digits.ci = 5,p.numeric = TRUE, digits.p=5, emph.p=TRUE, exp.coef=FALSE)
+```
+
+###Follow-up age interaction plots
+
+Tertiary split age variable for visualization
+```{r}
+data$age_tertiary_split <- ntile(data$age, 3)
+data$age_tertiary_split <- factor(data$age_tertiary_split, labels = c("YA", "MA", "OA"))
+```
+
+Age group descriptive stats
+```{r}
+desc_statby(data, "age", grps = "age_tertiary_split", ci = 0.95)
+```
+
+Plot ages per group
+```{r}
+ p <- ggboxplot(data, x = "age_tertiary_split", y = "age",
+      color = "age_tertiary_split", palette ="jco", legend.title = "Age Group",
+      xlab = "Age Group", ylab = "Age", add = "jitter", shape = "age_tertiary_split")
+ p
+```
+
+Mean age per age group
+```{r}
+grpmean(data, age, age_tertiary_split)
+```
+
+####Age * Midbrain Interaction: Effort Discounting
+Chose Low Effort
+```{r}
+midbrain_effort <- ggscatter(data, x = "midbrain", y = "choseloeffort",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(0.5,2), ylim=c(0,1),                             #x,y bounds
+  xlab = "Midbrain DRD2 BPND", ylab = "prop(Low Effort)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 1.5)  # Add correlation coefficient
+midbrain_effort
+```
+
+Effort (Ln(k+1))
+```{r}
+midbrain_effort <- ggscatter(data, x = "midbrain", y = "effort_ln_k1",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(0.5,2), ylim=c(0,3),                             #x,y bounds
+  xlab = "Midbrain DRD2 BPND", ylab = "Effort (Ln(k+1))",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 1.75)  # Add correlation coefficient
+midbrain_effort
+```
+
+####Age * Ventral Striatum Interaction: Time Discounting
+Chose Sooner
+```{r}
+vstr_time <- ggscatter(data, x = "accumbens_pvc", y = "chosesnr",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(10,60), ylim=c(0,1),                             #x,y bounds
+  xlab = "Ventral Striatum DRD2 BPND", ylab = "prop(Sooner)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 14)  # Add correlation coefficient
+vstr_time
+```
+
+####Age * Ventral Striatum Interaction: Effort Discounting
+Chose Low Effort
+```{r}
+vstr_effort <- ggscatter(data, x = "accumbens_pvc", y = "choseloeffort",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(10,60), ylim=c(0,1),                             #x,y bounds
+  xlab = "Ventral Striatum DRD2 BPND", ylab = "prop(Low Effort)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 20)  # Add correlation coefficient
+vstr_effort
+```
+
+Effort (Ln(k+1))
+```{r}
+vstr_effort <- ggscatter(data, x = "accumbens_pvc", y = "effort_ln_k1",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(10,60), ylim=c(0,2.5),                             #x,y bounds
+  xlab = "Ventral Striatum DRD2 BPND", ylab = "Effort (Ln(k+1))",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 20)  # Add correlation coefficient
+vstr_effort
+```
+
+####Age * Putamen Interaction: Time Discounting
+Chose Sooner
+```{r}
+put_time <- ggscatter(data, x = "putamen_pvc", y = "chosesnr",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(20,50), ylim=c(0,1),                             #x,y bounds
+  xlab = "Putamen DRD2 BPND", ylab = "prop(Sooner)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 45)  # Add correlation coefficient
+put_time
+```
+
+####Age * Amygdala Interaction: Probability Discounting
+Chose High Probability
+```{r}
+amyg_prob <- ggscatter(data, x = "amygdala_pvc", y = "prob_ln_k1",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(1,6), ylim=c(0,3),                             #x,y bounds
+  xlab = "Amygdala DRD2 BPND", ylab = "Probability Ln(k+1)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 1.5)  # Add correlation coefficient
+amyg_prob
+```
+
+####Age * Amygdala Interaction: Effort Discounting
+Effort(Ln(k+1))
+```{r}
+amyg_effort <- ggscatter(data, x = "amygdala_pvc", y = "effort_ln_k1",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(1,6), ylim=c(0,3),                             #x,y bounds
+  xlab = "Amygdala DRD2 BPND", ylab = "Effort Ln(k+1)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 1.5)  # Add correlation coefficient
+amyg_effort
+```
+
+####Age * Hippocampus Interaction: Effort Discounting
+Effort(Ln(k+1))
+```{r}
+hipp_effort <- ggscatter(data, x = "hippocampus_pvc", y = "effort_ln_k1",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(0,4), ylim=c(0,3),                             #x,y bounds
+  xlab = "Hippocampus DRD2 BPND", ylab = "Effort Ln(k+1)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 0.5)  # Add correlation coefficient
+hipp_effort
+```
+
+####Age * Thalamus Interaction: Effort Discounting
+Effort(Ln(k+1))
+```{r}
+thal_effort <- ggscatter(data, x = "thalamus_pvc", y = "effort_ln_k1",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(1,5), ylim=c(0,3),                             #x,y bounds
+  xlab = "Thalamus DRD2 BPND", ylab = "Effort Ln(k+1)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 4)  # Add correlation coefficient
+thal_effort
+```
+
+####Age * ACC Interaction: Probability Discounting
+Chose High Probability
+```{r}
+acc_prob <- ggscatter(data, x = "acc_pvc", y = "prob_ln_k1",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(0,3), ylim=c(0,3),                             #x,y bounds
+  xlab = "ACC DRD2 BPND", ylab = "Probability Ln(k+1)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 2.5)  # Add correlation coefficient
+acc_prob
+```
+
+####Age * ACC Interaction: Effort Discounting
+Effort(Ln(k+1))
+```{r}
+acc_effort <- ggscatter(data, x = "acc_pvc", y = "effort_ln_k1",
+  add = "reg.line",                                       # Add regression line
+  conf.int = TRUE,                                        # Add confidence interval
+  color = "age_tertiary_split", palette = "jco",               # Color by age groups
+  xlim=c(0,3), ylim=c(0,2),                             #x,y bounds
+  xlab = "ACC DRD2 BPND", ylab = "Effort Ln(k+1)",  #labels
+  legend.title = "Age Group"
+  )+
+  stat_cor(aes(color = data$age_tertiary_split), label.x = 1.5)  # Add correlation coefficient
+acc_effort
+```

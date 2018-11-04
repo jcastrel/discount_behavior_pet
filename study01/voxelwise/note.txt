@@ -1,0 +1,5 @@
+sample_01 - young adult sample, [18F]fallypride
+sample_02 - adult lifespan sample, [18F]fallypride
+sample_03 - adult lifespan sample, [11C]FLB 457
+
+Included maps are unthresholded t-statistic from linear regression analysis for the effect of discounting measure on D2 receptor availability (controlling for age and sex as covariates of no interest).

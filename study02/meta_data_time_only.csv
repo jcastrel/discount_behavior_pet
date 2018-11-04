@@ -1,0 +1,15 @@
+author,year,tracer,isotope,radiotracer_target,scan_type,sample,sample_bin,psychopathology,psychopathology_dummy_code,discount,index,region,Zr,SE,orig_r,N,r_adj
+"Joutsa et al., 2015",2015,[11C]raclopride,11C,D2,release,PG,PAT,Addiction,2,Time,k,vs,-1.421925871,0.333333333,-0.89,12,-0.89
+"Joutsa et al., 2015",2015,[11C]raclopride,11C,D2,baseline,PG,PAT,Addiction,2,Time,k,vs,-0.867300528,0.333333333,-0.7,12,-0.7
+"Oberlin et al., 2015",2015,[11C]raclopride,11C,D2,baseline,NTS,PAT,Addiction,2,Time,AUC,vs,-0.775298706,0.377964473,0.65,10,-0.65
+"Ballard et al., 2015",2015,[18F]fallypride,18F,D2,baseline,MA,PAT,Addiction,2,Time,Ln(k),whole striatum,-0.356355693,0.204124145,-0.342,27,-0.342
+"Oberlin et al., 2015",2015,[11C]raclopride,11C,D2,baseline,HC,HC,Healthy,1,Time,AUC,vs,-0.71051552,0.353553391,0.611,11,-0.611
+"Smith et al., 2016",2016,[18F]FMT,18F,DA,baseline,HC,HC,Healthy,1,Time,ICR,putamen,-0.566792795,0.277350098,-0.513,16,-0.513
+"Ballard et al., 2015",2015,[18F]fallypride,18F,D2,baseline,HC,HC,Healthy,1,Time,Ln(k),whole striatum,-0.180949396,0.204124145,-0.179,27,-0.179
+"Eisenstein et al., 2015",2015,[11C]NMB,11C,D2,baseline,HC,HC,Healthy,1,Time,AUC,whole striatum,-0.050041729,0.25,0.05,19,-0.05
+"Joutsa et al., 2015",2015,[11C]raclopride,11C,D2,baseline,HC,HC,Healthy,1,Time,k,vs,-0.010000333,0.333333333,-0.01,12,-0.01
+"Castrellon et al., 2018",2018,[18F]fallypride,18F,D2,baseline,HC,HC,Healthy,1,Time,prop(Sooner),whole striatum,0.027006564,0.0971,0.027,109,0.027
+"Joutsa et al., 2015",2015,[11C]raclopride,11C,D2,release,HC,HC,Healthy,1,Time,k,vs,0.151140436,0.333333333,0.15,12,0.15
+"Crunelle et al., 2014",2014,[123I]FP-CIT,123I,DAT,release,ADHD,PAT,Other,3,Time,k,putamen,0.598526181,0.21821789,-0.536,24,0.536
+"Eisenstein et al., 2015",2015,[11C]NMB,11C,D2,baseline,OB,PAT,Other,3,Time,AUC,whole striatum,0.632833187,0.223606798,-0.56,23,0.56
+"Joutsa et al., 2015",2015,[18F]FDOPA,18F,DA,baseline,PD,PAT,Other,3,Time,k,caudate,0.758173745,0.267261242,0.64,17,0.64
